@@ -1,0 +1,31 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on:  windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.9
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Apply
+      run: |
+        terraform plan -out=tfplan
+        terraform apply tfplan
+      env:
+        TF_VAR_aws_access_key_id: ${{ sanjay_budhani }}
+        TF_VAR_aws_secret_access_key: ${{ sanjay@123 }}
+        TF_VAR_aws_region: Asia Pacific (Mumbai) 
